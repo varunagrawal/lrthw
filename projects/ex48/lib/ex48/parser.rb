@@ -65,8 +65,10 @@ class Parser
       return match(word_list, 'noun')
     elsif next_word == 'direction'
       return match(word_list, 'direction')
+    elsif next_word == 'number'
+      return match(word_list, 'number')
     else
-      raise ParserError.new("Expected a noun or direction next.")
+      raise ParserError.new("Expected a noun, direction or number next.")
     end
   end
 
@@ -84,11 +86,15 @@ class Parser
   end
 
   def parse_sentence(word_list)
-    subj = parse_subject(word_list)
-    verb = parse_verb(word_list)
-    obj = parse_object(word_list)
-    
-    return Sentence.new(subj, verb, obj)
+    begin
+      subj = parse_subject(word_list)
+      verb = parse_verb(word_list)
+      obj = parse_object(word_list)
+      
+      return Sentence.new(subj, verb, obj)
+    rescue
+      puts "Could not understand the command. Please try again."
+      return nil
   end
 
 end
