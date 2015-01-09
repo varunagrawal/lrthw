@@ -1,0 +1,21 @@
+<h1><%= room.name %></h1>
+
+<pre>
+    <%= room.description %>
+</pre>
+
+<% if room.name == "death" || room.name == "The End" %>
+    <p><a href="/">Play Again?</a></p>
+<% else %>
+    <p>
+        <form action="/game" method="POST">
+            <% if room.options %>
+                <% room.paths.each do |command, destination|  %>
+                <input type="submit" value="<%= command %>" name="action">
+                <% end %>
+            <% else %>
+                <input type="text" name="action">
+            <% end %>
+        </form>
+    </p>
+<% end %>
